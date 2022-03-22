@@ -6,28 +6,34 @@ import {
   Patch,
   Param,
   Delete,
+  UseFilters,
+  ParseIntPipe,
 } from '@nestjs/common';
+import { HttpExceptionFilter } from 'src/http-exception.filter';
 
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { ForbiddenException } from './forbidden.exception';
 
 @Controller('cats')
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Post()
+  @UseFilters(HttpExceptionFilter)
   async create(@Body() createCatDto: CreateCatDto) {
     return this.catsService.create(createCatDto);
   }
 
   @Get()
   findAll() {
-    return this.catsService.findAll();
+    throw new ForbiddenException();
+    // return this.catsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.catsService.findOne(+id);
   }
 
