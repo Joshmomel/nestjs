@@ -8,6 +8,7 @@ import {
   Delete,
   UseFilters,
   ParseIntPipe,
+  ValidationPipe,
 } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/http-exception.filter';
 
@@ -21,8 +22,8 @@ export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Post()
-  @UseFilters(HttpExceptionFilter)
-  async create(@Body() createCatDto: CreateCatDto) {
+  create(@Body() createCatDto: CreateCatDto) {
+    console.log('create cat');
     return this.catsService.create(createCatDto);
   }
 
