@@ -1,7 +1,8 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { AllExceptionsFilter } from './all-exceptions.filter';
 import { CatsModule } from './cats/cats.module';
+import { LoggingInterceptor } from './logging.interceptor';
 
 @Module({
   imports: [CatsModule],
@@ -14,6 +15,10 @@ import { CatsModule } from './cats/cats.module';
       provide: APP_PIPE,
       useClass: ValidationPipe,
     },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: LoggingInterceptor,
+    // },
   ],
 })
 export class AppModule {}

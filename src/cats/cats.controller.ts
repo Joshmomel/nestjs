@@ -9,14 +9,17 @@ import {
   UseFilters,
   ParseIntPipe,
   ValidationPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/http-exception.filter';
+import { LoggingInterceptor } from 'src/logging.interceptor';
 
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { ForbiddenException } from './forbidden.exception';
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('cats')
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
